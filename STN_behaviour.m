@@ -1,11 +1,11 @@
 clear
 %% user input
 
-P=1;%1 for PATIENTS, 0 for CONTROLS
+P=0;%1 for PATIENTS, 0 for CONTROLS
 
 % %should figured be displayed?
 
-fig=1;%recreates individual plots like in Leimbach 2018, JoCN
+fig=0;%recreates individual plots like in Leimbach 2018, JoCN
 sumfig=1;%group level plots
 
 %% load data
