@@ -17,5 +17,6 @@ plot_same_same.m: recreates Figure 2
 
 
 extra support scripts:
-barwitherr
-trial_predictors_stim_by_choice
+barwitherr,
+trial_predictors_stim_by_choice,
+plotpatch
