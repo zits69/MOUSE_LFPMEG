@@ -3,7 +3,7 @@ Data and scripts from Patai, Z. E., Foltynie, T., Limousin, P., Hariz, M. I., Zr
 
 Scripts for modelling written by RB and EZP, LFP/MEG analysis by VL and EZP.
 
-Requirements: Matlab, SPM12 (for MEG data)
+Requirements: Matlab, SPM12 & Fieldtrip (for LFP/MEG data - note: SPM12 includes FT)
 
 Scripts for behavioural and LFP analysis, and LFP data. MEG data is available on: MRC BDNU 
 
