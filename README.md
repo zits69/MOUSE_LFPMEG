@@ -1,7 +1,7 @@
 # MOUSE_LFPMEG
-Data and scripts from Patai, Z. E., Foltynie, T., Limousin, P., Hariz, M. I., Zrinzo, L., Bogacz, R., Litvak, V. (2020). Beta and Low Frequency Oscillations in the Human Subthalamic Nucleus Express Distinct Roles during Decision Making. (In Submission).
+Data and scripts from Patai, Z. E., Foltynie, T., Limousin, P., Hariz, M. I., Zrinzo, L., Bogacz, R., Litvak, V. (2020). Conflict during a sequential decision task increases the power of beta oscillations in the subthalamic nucleus and its coherence with frontal cortex. (In Submission).
 
-Scripts for modelling written by RB and EZP, LFP/MEG analysis by VL and EZP.
+Scripts for modelling written by RB and EZP, LFP/MEG analysis by RB, VL and EZP.
 
 Requirements: Matlab, SPM12 & Fieldtrip (for LFP/MEG data - note: SPM12 includes FT)
 
