@@ -1,5 +1,5 @@
 # MOUSE_LFPMEG
-Data and scripts from Patai, Z. E., Foltynie, T., Limousin, P., Hariz, M. I., Zrinzo, L., Bogacz, R., Litvak, V. (2020). Conflict during a sequential decision task increases the power of beta oscillations in the subthalamic nucleus and its coherence with frontal cortex. (In Submission).
+Data and scripts from Patai, Z. E., Foltynie, T., Limousin, P., Hariz, M. I., Zrinzo, L., Bogacz, R., Litvak, V. (2020). Conflict detection in a sequential decision task is associated with increased cortico-subthalamic coherence and prolonged subthalamic oscillatory response in the beta band. (In Submission).
 
 Scripts for modelling written by RB and EZP, LFP/MEG analysis by RB, VL and EZP.
 
@@ -14,6 +14,8 @@ STN_behaviour_model_comparisons.m: results of modelling behaviour with explicit 
 compare_strategies.m: separating behaviour into those who integrate evidence or just respond to 'same' stimuli in a row
 
 plot_same_same.m: recreates Figure 2
+
+MEGLFP_coherence.m: recreates Figure 4
 
 
 extra support scripts:
