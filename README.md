@@ -5,7 +5,9 @@ Scripts for modelling written by RB and EZP, LFP/MEG analysis by RB, VL and EZP.
 
 Requirements: Matlab, SPM12 & Fieldtrip (for LFP/MEG data - note: SPM12 includes FT)
 
-Scripts for behavioural and LFP analysis, and LFP data. MEG data is available on: MRC BDNU 
+Scripts for behavioural and LFP analysis. 
+LFP (patients) data is available on: https://data.mrc.ox.ac.uk/data-set/human-lfp-recordings-stn-during-sequential-conflict-task
+MEG (controls) data is available on: https://openneuro.org/datasets/ds002908/versions/1.0.0
 
 STN_behaviour.m:  behavioural analysis
 
