@@ -11,7 +11,7 @@ MEG (controls) data is available on: https://openneuro.org/datasets/ds002908/ver
 
 STN_behaviour.m:  behavioural analysis
 
-STN_behaviour_model_comparisons.m: results of modelling behaviour with explicit mathematical models (uses scripts M1-M6 parametersearch) - supplemental data
+STN_behaviour_model_comparisons.m: results of modelling behaviour with explicit mathematical models (uses scripts M1-M4 parametersearch) - supplemental data
 
 compare_strategies.m: separating behaviour into those who integrate evidence or just respond to 'same' stimuli in a row
 
