@@ -1,5 +1,7 @@
 # MOUSE_LFPMEG
-Data and scripts from Patai, Z. E., Foltynie, T., Limousin, P., Hariz, M. I., Zrinzo, L., Bogacz, R., Litvak, V. (2020). Conflict detection in a sequential decision task is associated with increased cortico-subthalamic coherence and prolonged subthalamic oscillatory response in the beta band. (In Submission).
+Data and scripts from Patai, E. Z., Foltynie, T., Limousin, P., Akram, H., Zrinzo, L., Bogacz, R., & Litvak, V. (2022). Conflict Detection in a Sequential Decision Task Is Associated with Increased Cortico-Subthalamic Coherence and Prolonged Subthalamic Oscillatory Response in the β Band. Journal of Neuroscience, 42(23), 4681–4692. https://doi.org/10.1523/JNEUROSCI.0572-21.2022
+
+https://www.jneurosci.org/content/42/23/4681
 
 Scripts for modelling written by RB and EZP, LFP/MEG analysis by RB, VL and EZP.
 
@@ -15,9 +17,12 @@ STN_behaviour_model_comparisons.m: results of modelling behaviour with explicit 
 
 compare_strategies.m: separating behaviour into those who integrate evidence or just respond to 'same' stimuli in a row
 
-plot_same_same.m: recreates Figure 2
 
-MEGLFP_coherence.m: recreates Figure 4
+lfp_regression_allcontacts_figures: recreated Figure 2
+
+plot_same_same.m: recreates Figure 3
+
+MEGLFP_coherence_final.m: recreates Figure 5
 
 
 extra support scripts:
