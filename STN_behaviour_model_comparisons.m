@@ -11,7 +11,7 @@
 
 %% input
 %if P ==1 then use patients, otherwise control data
-P=1;
+P=0;
 %% FMINSEACRH CALCULATIONS
 [LogL1, trlnum1] = M1_parametersearch(P);
 [LAMBDA,  LogL2, trlnum2] = M2_parametersearch(P);

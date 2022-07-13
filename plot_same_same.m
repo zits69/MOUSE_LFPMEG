@@ -1,5 +1,5 @@
 
-function [ avsame  avsame2 avsame3 avdiff avdiff2 avdiff3,sigA, avsame_group, avdiff_group, avsame_same,avdiff_same,avsame_diff,avdiff_diff,...
+function [ avsame  avdiff betalfp cueind evidence_index avsame2 avsame3  avdiff2 avdiff3  ,sigA, statA avsame_group, avdiff_group, avsame_same,avdiff_same,avsame_diff,avdiff_diff,...
     trlwsesame trlwsediff trlwsesame2 trlwsediff2 trlwsesame3 trlwsediff3 trlnumsame trlnumdiff] = plot_same_same(freq,firsts,accuracy)
 
 
@@ -19,17 +19,17 @@ function [ avsame  avsame2 avsame3 avdiff avdiff2 avdiff3,sigA, avsame_group, av
 
 
 if freq==1
-    files = dir('D:\GitHub\BETA_LFP\P*allchans_cue.mat');%all channels with beat a-priori
+    files = dir('/home/ezp/Documents/STN/GitHub/BETA_LFP/P*allchans_cue.mat');%all channels with beat a-priori
 elseif freq==2
-    files = dir('D:\GitHub\THETA_LFP\P*allchans_cue.mat');%all channels
+    files = dir('/home/ezp/Documents/STN/GitHub/THETA_LFP/P*allchans_cue.mat');%all channels
 end
 
 n = numel(files);
 for i = 1:n
     if freq==1
-        load (['D:\GitHub\BETA_LFP\' files(i).name]);
+        load (['/home/ezp/Documents/STN/GitHub/BETA_LFP/' files(i).name]);
     elseif freq==2
-        load (['D:\GitHub\THETA_LFP\' files(i).name]);
+        load (['/home/ezp/Documents/STN/GitHub/THETA_LFP/' files(i).name]);
     end
     
     same_same = [];
@@ -40,8 +40,10 @@ for i = 1:n
     diff_same_prev = [];
     same_diff_prev = [];
     diff_diff_prev = [];
+    include=[];
     for t = 1:length(seq)
         index = seq{t}.ind; %index of cue within a trial
+        
         if index > 2 && index < length (seq{t}.seq)   %ignore the first and the last trial
             stim = seq{t}.seq(index) * 2 - 3;
             prev = seq{t}.seq(index-1) * 2 - 3;
@@ -73,7 +75,31 @@ for i = 1:n
                 end
             end
         end
+        
+        %cues to include in LFP and urgency/evidence (these are for
+        %plotting raw data for these regs from GLM)
+        if  index > 1 && index < length (seq{t}.seq) && isempty(find(bad==t))  %ignore the first and the last trial
+            include = [include, t];
+        end
+        %for urgency           
+        cueindtemp(t)=index;
+        %for evidence
+        stim = seq{t}.seq(index)*2 - 3;
+        if index == 1
+            evidence(t) = stim;        
+        else
+            evidence(t) = evidence(t-1) + stim;
+        end
+        
+            
     end
+    
+    %for raw data plotting (GLM control)
+    cueind{i}= cueindtemp(include);
+    evidence_index{i}=evidence(include); 
+    
+    lfp=squeeze(nanmean(data.trial,2));
+    betalfp{i}=lfp(include,:);
     
     same = [];
     diff = [];
@@ -84,6 +110,7 @@ for i = 1:n
     same4=[];same5=[];same6=[];diff4=[];diff5=[];diff6=[];
     sametrlnum=[];
     difftrlnum=[];
+
     for t = 1:length(seq)
         index = seq{t}.ind; %index of cue within a trial
         
@@ -121,6 +148,9 @@ for i = 1:n
                 end
             end
             
+
+
+
         elseif firsts==1
             
             if index == 3  && length(seq{t}.seq)>3 %only take first 4 stimulus as sequnce
@@ -214,7 +244,7 @@ for i = 1:n
         eval(['avdiff_diff (i,c,:) = nanmean(lfp',num2str(c),'(diff_diff,:));']);
     end
     
-    lfp=squeeze(mean(data.trial,2));
+    lfp=squeeze(nanmean(data.trial,2));
     trlwsesame{i} = lfp(same,:);
     trlwsediff{i} = lfp(diff,:);
     trlwsesame2{i} = lfp(same2,:);
@@ -224,10 +254,19 @@ for i = 1:n
     trlnumsame{i} = sametrlnum;
     trlnumdiff{i} = difftrlnum;
     
+
     
     
 end
 
+%convert the data to dB
+avsame=avsame*10/log(10);
+avdiff=avdiff*10/log(10);
+avsame2=avsame2*10/log(10);
+avdiff2=avdiff2*10/log(10);
+avsame3=avsame3*10/log(10);
+avdiff3=avdiff3*10/log(10);
+%
 
 figure;set(gcf,'color','w');
 chans={'STN R01';'STN R12';'STN R23';'STN L01';'STN L12';'STN L23'};
@@ -241,8 +280,10 @@ for c=1:6
         hold on
         p2=plotpatch (cat(2,squeeze(avdiff(:,c,1:end-1)),squeeze(avdiff2(:,c,11:end-1)),squeeze(avdiff3(:,c,11:end))), combotime,'b');
         title(chans(c));
-        ylim([-0.1 0.1])
-        
+        if freq==1;ylim([-.3 .3]);else ylim([-.6 .6]);end
+        if c==1;ylabel ('dB', 'FontSize',15);end
+        set(gca,'FontSize',15);
+
         %stats settings
         cfg=[];
         cfg.statistic = 'ft_statfun_depsamplesT';
@@ -258,7 +299,8 @@ for c=1:6
         cfg.avgovertime = 'no';
         cfg.neighbours    =[];
         cfg.minnbchan =0;
-        
+        cfg.spmversion = 'spm12' ;
+
         Nsub=size(avsame,1);
         
         subj = Nsub;
@@ -283,7 +325,8 @@ for c=1:6
 
 end
 
-if freq==1;suptitle ('Beta power');elseif freq==2; suptitle ('Theta power');elseif freq==3; suptitle ('ERP');elseif freq==4; suptitle ('Gamma');end
+if freq==1;sgtitle ('Beta power');elseif freq==2; suptitle ('Theta power');end      
+set(gca,'FontSize',15);
 
 %make data struc for stats in Fieldtrip
 siz = size(avsame_group.avg);
@@ -302,10 +345,11 @@ figure;set(gcf,'color','w');
 p1=plotpatch (cat(2,squeeze(mean(avsame(:,:,1:end-1),2)),squeeze(mean(avsame2(:,:,11:end-1),2)),squeeze(mean(avsame3(:,:,11:end),2))), combotime,'k');
 hold on
 p2=plotpatch (cat(2,squeeze(mean(avdiff(:,:,1:end-1),2)),squeeze(mean(avdiff2(:,:,11:end-1),2)),squeeze(mean(avdiff3(:,:,11:end),2))), combotime,'b');
-ylim([-0.1 0.1])
+if freq==1;ylim([-.2 .2]);else ylim([-.6 .6]);end
 xlim([-0.5 2.4])
-xline(0,'k');xline(0.8,'k');xline(1.6,'k');
-if freq==1;ylabel ('Beta power ACROSS ALL CONTACTS', 'FontSize',15);elseif freq==2; ylabel ('T  power ACROSS ALL CONTACTS', 'FontSize',15);end
+% xline(0,'k');xline(0.8,'k');xline(1.6,'k');
+if freq==1;ylabel ('Beta power (dB)', 'FontSize',15);elseif freq==2; ylabel ('THETA  power (dB)', 'FontSize',15);end
+set(gca,'FontSize',15);
 
 cfg.avgoverchan = 'yes';
 [statA] = ft_timelockstatistics(cfg, avsame_group, avdiff_group);%
@@ -329,7 +373,7 @@ xlabel ('Time from cue onset', 'FontSize',15);
 ylabel ('Different-Same (+sem)', 'FontSize',15);
 xlim([-0.5 2.4])
 
-xline(0,'k');xline(0.8,'k');xline(1.6,'k');
+% xline(0,'k');xline(0.8,'k');xline(1.6,'k');
 
 
 x = combotime;                                          % Create Independent Variable
@@ -348,8 +392,8 @@ hold off
 xlabel ('Time from cue onset', 'FontSize',15);
 ylabel ('BETA Diff-Same (+95%CI)', 'FontSize',15);
 xlim([-0.5 2.4])
-xline(0,'k');xline(0.8,'k');xline(1.6,'k');
-
+% xline(0,'k');xline(0.8,'k');xline(1.6,'k');
+set(gca,'FontSize',15)
 
 %%AT CUE i+1
 figure;set(gcf,'color','w');
@@ -363,10 +407,11 @@ xlabel ('Time from cue onset', 'FontSize',15);
 if freq==1;ylabel ('Beta power', 'FontSize',15);elseif freq==2; ylabel ('Theta power', 'FontSize',15);end
 set(gca,'FontSize',15)
 if freq==1;ylim([-.1 .1]);else ylim([-.15 .15]);end
-xline(0,'k');
-lgd=legend ([p1(1) p2(1) p3(1) p4(1)],'Box', 'off');
+% xline(0,'k');
+lgd=legend ([p1(1) p2(1) p3(1) p4(1)]);
 lgd.String={'Same-Same', 'Same-Different', 'Different-Same', 'Different-Different'};
 lgd.Location ='northeast';
-lgd.FontSize=20;
+lgd.FontSize=15;
+legend boxoff  
 
 end
